@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MPI - Keberagaman Budaya Indonesia | IPS Kelas 7</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between overflow-x-hidden">
+
+    <!-- Top Navigation / Header -->
+    <header class="bg-gradient-to-r from-emerald-600 to-teal-700 text-white shadow-md py-4 px-6 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchScreen('home')">
+                <div class="bg-white/20 p-2 rounded-lg">
+                    <i class="fa-solid fa-earth-asia text-2xl text-amber-300"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold tracking-wide leading-tight">E-Media IPS Kelas VII</h1>
+                    <p class="text-xs text-emerald-100">Keberagaman Budaya Bangsaku</p>
+                </div>
+            </div>
+            
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex space-x-2">
+                <button onclick="switchScreen('home')" class="nav-btn px-4 py-2 rounded-lg hover:bg-white/10 transition flex items-center gap-2 text-sm font-medium"><i class="fa-solid fa-house"></i> Beranda</button>
+                <button onclick="switchScreen('petunjuk')" class="nav-btn px-4 py-2 rounded-lg hover:bg-white/10 transition flex items-center gap-2 text-sm font-medium"><i class="fa-solid fa-circle-info"></i> Petunjuk</button>
+                <button onclick="switchScreen('materi')" class="nav-btn px-4 py-2 rounded-lg hover:bg-white/10 transition flex items-center gap-2 text-sm font-medium"><i class="fa-solid fa-book-open"></i> Materi</button>
+                <button onclick="switchScreen('kuis')" class="nav-btn px-4 py-2 rounded-lg hover:bg-white/10 transition flex items-center gap-2 text-sm font-medium"><i class="fa-solid fa-gamepad"></i> Kuis</button>
+                <button onclick="switchScreen('profil')" class="nav-btn px-4 py-2 rounded-lg hover:bg-white/10 transition flex items-center gap-2 text-sm font-medium"><i class="fa-solid fa-user"></i> Profil</button>
+            </nav>
+
+            <!-- Mobile Menu Toggle Button -->
+            <button class="md:hidden text-white focus:outline-none" id="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <i class="fa-solid fa-bars text-2xl"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-menu" class="hidden fixed inset-y-0 right-0 z-40 w-64 bg-slate-900 text-white p-6 shadow-2xl transition-all duration-300 transform translate-x-full flex flex-col justify-between">
+        <div class="space-y-6">
+            <div class="flex justify-between items-center border-b border-slate-700 pb-4">
+                <span class="font-bold text-amber-400">Navigasi MPI</span>
+                <button onclick="toggleMobileMenu()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            <nav class="flex flex-col space-y-3">
+                <button onclick="switchScreen('home'); toggleMobileMenu();" class="w-full text-left py-2 px-3 rounded-lg hover:bg-slate-800 flex items-center gap-3"><i class="fa-solid fa-house text-emerald-400"></i> Beranda</button>
+                <button onclick="switchScreen('petunjuk'); toggleMobileMenu();" class="w-full text-left py-2 px-3 rounded-lg hover:bg-slate-800 flex items-center gap-3"><i class="fa-solid fa-circle-info text-sky-400"></i> Petunjuk</button>
+                <button onclick="switchScreen('materi'); toggleMobileMenu();" class="w-full text-left py-2 px-3 rounded-lg hover:bg-slate-800 flex items-center gap-3"><i class="fa-solid fa-book-open text-amber-400"></i> Materi Pembelajaran</button>
+                <button onclick="switchScreen('kuis'); toggleMobileMenu();" class="w-full text-left py-2 px-3 rounded-lg hover:bg-slate-800 flex items-center gap-3"><i class="fa-solid fa-gamepad text-purple-400"></i> Kuis Interaktif</button>
+                <button onclick="switchScreen('profil'); toggleMobileMenu();" class="w-full text-left py-2 px-3 rounded-lg hover:bg-slate-800 flex items-center gap-3"><i class="fa-solid fa-user text-rose-400"></i> Profil Pengembang</button>
+            </nav>
+        </div>
+        <div class="text-xs text-slate-500 text-center border-t border-slate-800 pt-4">
+            IPS Kelas VII • Kurikulum Merdeka
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-7xl mx-auto w-full p-4 md:p-6 flex flex-col items-center justify-center">
+
+        <!-- SCREEN 1: HOME/LANDING -->
+        <section id="screen-home" class="w-full max-w-5xl grid md:grid-cols-2 gap-8 items-center py-8">
+            <div class="space-y-6 text-center md:text-left">
+                <span class="bg-emerald-100 text-emerald-800 text-xs font-semibold px-3 py-1.5 rounded-full uppercase tracking-wider">Kurikulum Merdeka</span>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 leading-tight">
+                    Pesona Indahnya <br class="hidden md:inline">
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500">Keberagaman Budaya</span> <br>
+                    di Indonesia
+                </h1>
+                <p class="text-slate-600 text-base md:text-lg leading-relaxed">
+                    Ayo kita petualang bersama mempelajari kekayaan rumah adat, pakaian daerah, tari tradisional, upacara adat, serta memahami faktor apa saja yang memicu indahnya keberagaman ini!
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center md:justify-start gap-4 pt-2">
+                    <button onclick="switchScreen('materi')" class="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold px-8 py-4 rounded-xl shadow-lg shadow-emerald-600/30 transform hover:-translate-y-1 transition duration-200 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-circle-play text-xl"></i> Mulai Belajar
+                    </button>
+                    <button onclick="switchScreen('petunjuk')" class="bg-white hover:bg-slate-100 text-slate-700 font-semibold px-6 py-4 rounded-xl border border-slate-200 transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-circle-question"></i> Petunjuk Penggunaan
+                    </button>
+                </div>
+            </div>
+            <div class="flex justify-center items-center">
+                <div class="relative w-full max-w-sm md:max-w-md">
+                    <!-- Background blobs -->
+                    <div class="absolute top-10 -left-10 w-72 h-72 bg-emerald-300 rounded-full mix-blend-multiply filter blur-2xl opacity-40 animate-pulse"></div>
+                    <div class="absolute -bottom-10 -right-10 w-72 h-72 bg-amber-200 rounded-full mix-blend-multiply filter blur-2xl opacity-45 animate-pulse" style="animation-delay: 2s;"></div>
+                    <!-- Main Image Representation -->
+                    <div class="relative bg-white p-4 rounded-2xl shadow-2xl border border-slate-100 transform rotate-2 hover:rotate-0 transition duration-300">
+                        <div class="bg-emerald-50 rounded-xl overflow-hidden aspect-video flex items-center justify-center relative">
+                            <!-- Visual Illustration Placeholder -->
+                            <i class="fa-solid fa-map-location-dot text-7xl text-emerald-500 animate-bounce"></i>
+                        </div>
+                        <div class="mt-4 flex justify-between items-center px-2">
+                            <div>
+                                <h3 class="font-bold text-slate-800">Peta Kebudayaan Indonesia</h3>
+                                <p class="text-xs text-slate-500">Multikulturalisme & Persatuan Bangsa</p>
+                            </div>
+                            <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2 py-1 rounded-md">Kelas 7 SMP</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 2: PETUNJUK -->
+        <section id="screen-petunjuk" class="hidden w-full max-w-4xl bg-white rounded-2xl shadow-xl p-6 md:p-10 border border-slate-100">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-4 mb-6">
+                <i class="fa-solid fa-circle-info text-sky-500 text-3xl"></i>
+                <h2 class="text-2xl font-bold text-slate-800">Petunjuk Penggunaan Media</h2>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8 mb-8">
+                <div class="space-y-4">
+                    <h3 class="font-semibold text-lg text-emerald-700 flex items-center gap-2"><i class="fa-solid fa-compass"></i> Cara Belajar</h3>
+                    <ul class="space-y-3 text-slate-600 text-sm">
+                        <li class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 bg-emerald-100 text-emerald-800 rounded-full flex items-center justify-center font-bold text-xs">1</span> Masuklah ke halaman <strong>Materi</strong> untuk menjelajahi konsep keberagaman budaya dan jenis-jenisnya.</li>
+                        <li class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 bg-emerald-100 text-emerald-800 rounded-full flex items-center justify-center font-bold text-xs">2</span> Klik sub-materi interaktif untuk beralih antara <strong>Faktor Keberagaman</strong> dan <strong>Eksplorasi Wilayah</strong>.</li>
+                        <li class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 bg-emerald-100 text-emerald-800 rounded-full flex items-center justify-center font-bold text-xs">3</span> Klik ikon daerah pada peta/daftar untuk melihat detail rumah adat, pakaian, tarian, dan upacara adat di sana.</li>
+                    </ul>
+                </div>
+                <div class="space-y-4">
+                    <h3 class="font-semibold text-lg text-amber-600 flex items-center gap-2"><i class="fa-solid fa-gamepad"></i> Evaluasi (Kuis)</h3>
+                    <ul class="space-y-3 text-slate-600 text-sm">
+                        <li class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 bg-amber-100 text-amber-800 rounded-full flex items-center justify-center font-bold text-xs">1</span> Setelah memahami materi, uji pengetahuan Anda di halaman <strong>Kuis Interaktif</strong>.</li>
+                        <li class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 bg-amber-100 text-amber-800 rounded-full flex items-center justify-center font-bold text-xs">2</span> Ada 5 butir pertanyaan pilihan ganda yang harus dijawab secara berurutan.</li>
+                        <li class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 bg-amber-100 text-amber-800 rounded-full flex items-center justify-center font-bold text-xs">3</span> Kerjakan dengan teliti! Skor akhir akan ditampilkan secara instan di akhir kuis.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="flex justify-center">
+                <button onclick="switchScreen('materi')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 py-3 rounded-xl shadow-md transition flex items-center gap-2">
+                    Lanjut ke Materi <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- SCREEN 3: MATERI -->
+        <section id="screen-materi" class="hidden w-full max-w-6xl space-y-6">
+            <!-- Sub-Navigation for Materi -->
+            <div class="bg-white p-3 rounded-xl shadow-md border border-slate-100 flex flex-wrap gap-2 justify-center">
+                <button id="tab-materi-faktor" onclick="switchMateriTab('faktor')" class="px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 bg-emerald-600 text-white shadow">
+                    <i class="fa-solid fa-gears mr-1"></i> Faktor Penyebab Keberagaman
+                </button>
+                <button id="tab-materi-jelajah" onclick="switchMateriTab('jelajah')" class="px-5 py-2.5 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-all duration-200">
+                    <i class="fa-solid fa-map mr-1"></i> Jelajah Budaya Nusantara
+                </button>
+            </div>
+
+            <!-- SUB-TAB 1: FAKTOR PENYEBAB KEBERAGAMAN -->
+            <div id="materi-faktor" class="space-y-6">
+                <div class="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-slate-100">
+                    <h2 class="text-2xl font-bold text-slate-800 mb-2">Mengapa Budaya di Indonesia Sangat Beragam?</h2>
+                    <p class="text-slate-500 text-sm mb-6">Berikut adalah 4 faktor utama letak geografis dan sosiologis menurut kurikulum IPS SMP Kelas 7:</p>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <!-- Faktor 1 -->
+                        <div class="bg-emerald-50/50 hover:bg-emerald-50 p-5 rounded-xl border border-emerald-100 transition duration-200 flex gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0 text-xl font-bold">1</div>
+                            <div>
+                                <h3 class="font-bold text-slate-800 text-base mb-1">Letak Strategis Wilayah Indonesia</h3>
+                                <p class="text-slate-600 text-xs leading-relaxed">Terletak di antara Samudra Hindia & Pasifik, serta Benua Asia & Australia membuat Indonesia menjadi jalur perdagangan internasional. Para pedagang asing membawa pengaruh agama, bahasa, dan kebudayaan baru.</p>
+                            </div>
+                        </div>
+
+                        <!-- Faktor 2 -->
+                        <div class="bg-teal-50/50 hover:bg-teal-50 p-5 rounded-xl border border-teal-100 transition duration-200 flex gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center flex-shrink-0 text-xl font-bold">2</div>
+                            <div>
+                                <h3 class="font-bold text-slate-800 text-base mb-1">Kondisi Negara Kepulauan</h3>
+                                <p class="text-slate-600 text-xs leading-relaxed">Indonesia memiliki belasan ribu pulau. Keterbatasan komunikasi dan transportasi di masa lampau membuat setiap masyarakat kepulauan mengembangkan budaya sendiri demi bertahan hidup.</p>
+                            </div>
+                        </div>
+
+                        <!-- Faktor 3 -->
+                        <div class="bg-amber-50/50 hover:bg-amber-50 p-5 rounded-xl border border-amber-100 transition duration-200 flex gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center flex-shrink-0 text-xl font-bold">3</div>
+                            <div>
+                                <h3 class="font-bold text-slate-800 text-base mb-1">Perbedaan Kondisi Alam</h3>
+                                <p class="text-slate-600 text-xs leading-relaxed">Masyarakat pegunungan memiliki corak pakaian yang tebal dan bermata pencaharian sebagai petani/pekebun. Sebaliknya, masyarakat pesisir memiliki corak hidup kelautan dan pakaian yang lebih tipis.</p>
+                            </div>
+                        </div>
+
+                        <!-- Faktor 4 -->
+                        <div class="bg-sky-50/50 hover:bg-sky-50 p-5 rounded-xl border border-sky-100 transition duration-200 flex gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center flex-shrink-0 text-xl font-bold">4</div>
+                            <div>
+                                <h3 class="font-bold text-slate-800 text-base mb-1">Penerimaan Masyarakat terhadap Perubahan</h3>
+                                <p class="text-slate-600 text-xs leading-relaxed">Masyarakat perkotaan cenderung lebih terbuka menerima pengaruh teknologi dan budaya luar, sedangkan masyarakat pedalaman umumnya bersikap konservatif untuk menjaga tradisi leluhur.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUB-TAB 2: JELAJAH NUSA (Peta Interaktif / Selektor Wilayah) -->
+            <div id="materi-jelajah" class="hidden space-y-6">
+                <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-100">
+                    <h2 class="text-2xl font-bold text-slate-800 mb-2">Eksplorasi Budaya Daerah</h2>
+                    <p class="text-slate-500 text-sm mb-6">Pilihlah salah satu pulau/wilayah berikut ini untuk mempelajari kekayaan budayanya yang khas secara detail!</p>
+                    
+                    <!-- Regional Buttons grid -->
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 mb-8" id="regions-container">
+                        <!-- Will be selected dynamically via JS. Default: Sumatra -->
+                        <button onclick="selectRegion('sumatra')" id="btn-reg-sumatra" class="region-btn p-3 rounded-xl border font-semibold text-xs flex flex-col items-center gap-2 transition bg-emerald-50 text-emerald-800 border-emerald-200 shadow-sm">
+                            <i class="fa-solid fa-tree text-lg"></i> Sumatra
+                        </button>
+                        <button onclick="selectRegion('jawa')" id="btn-reg-jawa" class="region-btn p-3 rounded-xl border font-semibold text-xs flex flex-col items-center gap-2 transition bg-white text-slate-600 border-slate-200 hover:bg-slate-50">
+                            <i class="fa-solid fa-mountain text-lg"></i> Jawa & Bali
+                        </button>
+                        <button onclick="selectRegion('kalimantan')" id="btn-reg-kalimantan" class="region-btn p-3 rounded-xl border font-semibold text-xs flex flex-col items-center gap-2 transition bg-white text-slate-600 border-slate-200 hover:bg-slate-50">
+                            <i class="fa-solid fa-leaf text-lg"></i> Kalimantan
+                        </button>
+                        <button onclick="selectRegion('sulawesi')" id="btn-reg-sulawesi" class="region-btn p-3 rounded-xl border font-semibold text-xs flex flex-col items-center gap-2 transition bg-white text-slate-600 border-slate-200 hover:bg-slate-50">
+                            <i class="fa-solid fa-fish text-lg"></i> Sulawesi
+                        </button>
+                        <button onclick="selectRegion('nusa_tenggara')" id="btn-reg-nusa_tenggara" class="region-btn p-3 rounded-xl border font-semibold text-xs flex flex-col items-center gap-2 transition bg-white text-slate-600 border-slate-200 hover:bg-slate-50">
+                            <i class="fa-solid fa-sun text-lg"></i> Nusa Tenggara
+                        </button>
+                        <button onclick="selectRegion('papua_maluku')" id="btn-reg-papua_maluku" class="region-btn p-3 rounded-xl border font-semibold text-xs flex flex-col items-center gap-2 transition bg-white text-slate-600 border-slate-200 hover:bg-slate-50">
+                            <i class="fa-solid fa-compass-drafting text-lg"></i> Papua & Maluku
+                        </button>
+                    </div>
+
+                    <!-- Region Detail display card -->
+                    <div id="region-detail-card" class="bg-slate-50 border border-slate-150 p-6 rounded-xl space-y-6">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-200 pb-4 gap-2">
+                            <div>
+                                <h3 id="detail-title" class="text-xl font-bold text-slate-800">Kebudayaan Wilayah Sumatra</h3>
+                                <p id="detail-desc" class="text-xs text-slate-500">Mempunyai percampuran budaya Melayu yang kental dan dipengaruhi kultur maritim.</p>
+                            </div>
+                            <span class="bg-emerald-600 text-white text-xs font-bold px-3 py-1.5 rounded-full" id="detail-badge">Sumatra</span>
+                        </div>
+
+                        <!-- 4 Elements of Culture Grid -->
+                        <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
+                            <!-- Rumah Adat -->
+                            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition">
+                                <div class="w-10 h-10 bg-emerald-100 text-emerald-800 rounded-lg flex items-center justify-center text-lg mb-3"><i class="fa-solid fa-house-chimney"></i></div>
+                                <h4 class="font-bold text-sm text-slate-800">Rumah Adat</h4>
+                                <h5 id="cult-rumah-name" class="font-bold text-emerald-600 text-sm mb-1">Gadang (Minangkabau)</h5>
+                                <p id="cult-rumah-desc" class="text-slate-500 text-xs leading-relaxed">Memiliki atap ikonik melengkung runcing seperti tanduk kerbau yang melambangkan kemenangan (kemenangan kerbau).</p>
+                            </div>
+
+                            <!-- Pakaian Adat -->
+                            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition">
+                                <div class="w-10 h-10 bg-amber-100 text-amber-800 rounded-lg flex items-center justify-center text-lg mb-3"><i class="fa-solid fa-shirt"></i></div>
+                                <h4 class="font-bold text-sm text-slate-800">Pakaian Adat</h4>
+                                <h5 id="cult-pakaian-name" class="font-bold text-amber-600 text-sm mb-1">Bundo Kanduang</h5>
+                                <p id="cult-pakaian-desc" class="text-slate-500 text-xs leading-relaxed">Dilengkapi dengan penutup kepala berbentuk limpaso atau kerucut tanduk, melambangkan kebesaran seorang ibu.</p>
+                            </div>
+
+                            <!-- Tarian Daerah -->
+                            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition">
+                                <div class="w-10 h-10 bg-rose-100 text-rose-800 rounded-lg flex items-center justify-center text-lg mb-3"><i class="fa-solid fa-person-dancing"></i></div>
+                                <h4 class="font-bold text-sm text-slate-800">Tarian Daerah</h4>
+                                <h5 id="cult-tari-name" class="font-bold text-rose-600 text-sm mb-1">Tari Saman (Aceh)</h5>
+                                <p id="cult-tari-desc" class="text-slate-500 text-xs leading-relaxed">Tari berkelompok yang mengandalkan keharmonisan gerakan tangan, badan, dan syair pujian tanpa alat musik pengiring.</p>
+                            </div>
+
+                            <!-- Upacara Adat -->
+                            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition">
+                                <div class="w-10 h-10 bg-sky-100 text-sky-800 rounded-lg flex items-center justify-center text-lg mb-3"><i class="fa-solid fa-users-rays"></i></div>
+                                <h4 class="font-bold text-sm text-slate-800">Upacara Adat</h4>
+                                <h5 id="cult-upacara-name" class="font-bold text-sky-600 text-sm mb-1">Tabuik (Sumbar)</h5>
+                                <p id="cult-upacara-desc" class="text-slate-500 text-xs leading-relaxed">Perayaan tahunan mengenang wafatnya cucu Nabi Muhammad SAW, ditandai dengan arak-arakan menara Tabuik ke pantai.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 4: KUIS -->
+        <section id="screen-kuis" class="hidden w-full max-w-2xl bg-white rounded-2xl shadow-xl border border-slate-100 p-6 md:p-8">
+            <!-- Quiz Welcome/Ready Screen -->
+            <div id="quiz-start-screen" class="space-y-6 text-center py-6">
+                <div class="w-20 h-20 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto text-4xl shadow-md">
+                    <i class="fa-solid fa-trophy"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800">Kuis Evaluasi IPS Kelas 7</h2>
+                    <p class="text-slate-500 text-sm mt-1">Uji pemahamanmu tentang Keberagaman Budaya Indonesia.</p>
+                </div>
+                
+                <div class="bg-slate-50 p-4 rounded-xl text-left border border-slate-150 space-y-2 max-w-md mx-auto">
+                    <p class="text-xs text-slate-600 flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500"></i> Terdiri dari 5 Pertanyaan Pilihan Ganda.</p>
+                    <p class="text-xs text-slate-600 flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500"></i> Setiap jawaban benar bernilai 20 poin.</p>
+                    <p class="text-xs text-slate-600 flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500"></i> Tidak ada batasan waktu, pilihlah yang paling tepat.</p>
+                </div>
+
+                <button onclick="startQuiz()" class="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold px-8 py-3.5 rounded-xl shadow-lg shadow-orange-500/20 transform hover:-translate-y-1 transition duration-200">
+                    Mulai Kerjakan!
+                </button>
+            </div>
+
+            <!-- Quiz Play Screen -->
+            <div id="quiz-play-screen" class="hidden space-y-6">
+                <!-- Progress Header -->
+                <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Pertanyaan <span id="quiz-current-num">1</span> dari 5</span>
+                    <div class="w-28 bg-slate-200 rounded-full h-2">
+                        <div id="quiz-progress-bar" class="bg-emerald-600 h-2 rounded-full transition-all duration-300" style="width: 20%;"></div>
+                    </div>
+                </div>
+
+                <!-- Question -->
+                <div>
+                    <h3 id="quiz-question-text" class="text-lg font-bold text-slate-800 leading-normal">
+                        Berikut ini faktor letak geografis yang menyebabkan keberagaman suku bangsa di Indonesia adalah...
+                    </h3>
+                </div>
+
+                <!-- Answer Options -->
+                <div class="space-y-3" id="quiz-options-container">
+                    <!-- Dinamik generated via JS. Example template: -->
+                    <button class="w-full text-left p-4 rounded-xl border border-slate-200 hover:border-emerald-500 hover:bg-emerald-50/30 transition-all flex items-center justify-between group">
+                        <span class="text-sm font-medium text-slate-700">A. Pilihan jawaban 1</span>
+                        <i class="fa-solid fa-chevron-right text-slate-300 group-hover:text-emerald-500 transition"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quiz Result Screen -->
+            <div id="quiz-result-screen" class="hidden space-y-6 text-center py-6">
+                <div id="result-trophy-container" class="w-24 h-24 rounded-full flex items-center justify-center mx-auto text-5xl shadow-lg">
+                    <!-- Icon loaded dynamically -->
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800" id="result-status-title">Hebat! Kamu Lulus Kuis</h2>
+                    <p class="text-slate-500 text-sm mt-1" id="result-feedback-text">Selamat, pemahamanmu mengenai keberagaman budaya sangat baik!</p>
+                </div>
+
+                <!-- Score Circle -->
+                <div class="inline-block bg-slate-50 border border-slate-200 rounded-2xl px-8 py-4">
+                    <p class="text-xs uppercase text-slate-400 font-bold tracking-wider">Skor Akhir Anda</p>
+                    <p class="text-5xl font-extrabold text-slate-800 mt-1" id="result-score">80 <span class="text-xl text-slate-400 font-normal">/ 100</span></p>
+                </div>
+
+                <div class="flex justify-center gap-4">
+                    <button onclick="startQuiz()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-3 rounded-xl shadow transition flex items-center gap-2">
+                        <i class="fa-solid fa-rotate-left"></i> Ulangi Kuis
+                    </button>
+                    <button onclick="switchScreen('materi')" class="bg-white hover:bg-slate-100 text-slate-700 font-semibold px-6 py-3 rounded-xl border border-slate-200 transition flex items-center gap-2">
+                        <i class="fa-solid fa-book-open"></i> Pelajari Lagi
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 5: PROFIL -->
+        <section id="screen-profil" class="hidden w-full max-w-2xl bg-white rounded-2xl shadow-xl border border-slate-100 p-6 md:p-8 text-center">
+            <div class="relative inline-block mb-4">
+                <div class="w-24 h-24 bg-gradient-to-tr from-emerald-600 to-teal-400 rounded-full flex items-center justify-center text-white text-4xl shadow-md mx-auto">
+                    <i class="fa-solid fa-chalkboard-user"></i>
+                </div>
+                <span class="absolute bottom-1 right-0 bg-amber-400 border-2 border-white text-white p-1 rounded-full text-xs flex items-center justify-center w-6 h-6"><i class="fa-solid fa-shield-halved"></i></span>
+            </div>
+            
+            <h2 class="text-xl font-bold text-slate-800">Media Pembelajaran Interaktif (MPI)</h2>
+            <p class="text-xs font-semibold text-emerald-600 tracking-wide uppercase mt-1">Keberagaman Budaya Indonesia - IPS Kelas VII</p>
+            
+            <p class="text-slate-500 text-xs max-w-md mx-auto mt-4 leading-relaxed">
+                Dikembangkan dengan tujuan membantu siswa tingkat Sekolah Menengah Pertama (SMP) untuk mengeksplorasi ilmu sosial secara mandiri, seru, dan visual.
+            </p>
+
+            <div class="grid grid-cols-2 gap-4 max-w-sm mx-auto mt-6 text-left border-t border-slate-100 pt-6">
+                <div>
+                    <p class="text-[10px] text-slate-400 font-bold uppercase">Mata Pelajaran</p>
+                    <p class="text-xs font-semibold text-slate-700">IPS (Ilmu Pengetahuan Sosial)</p>
+                </div>
+                <div>
+                    <p class="text-[10px] text-slate-400 font-bold uppercase">Jenjang / Sasaran</p>
+                    <p class="text-xs font-semibold text-slate-700">SMP Kelas 7 (Fase D)</p>
+                </div>
+                <div>
+                    <p class="text-[10px] text-slate-400 font-bold uppercase">Format Media</p>
+                    <p class="text-xs font-semibold text-slate-700">Web App Responsif (HTML5)</p>
+                </div>
+                <div>
+                    <p class="text-[10px] text-slate-400 font-bold uppercase">Metode Evaluasi</p>
+                    <p class="text-xs font-semibold text-slate-700">Kuis Pilihan Ganda Instan</p>
+                </div>
+            </div>
+
+            <div class="mt-8 border-t border-slate-100 pt-6 flex justify-center gap-4 text-slate-400 text-lg">
+                <a href="#" class="hover:text-emerald-600 transition"><i class="fa-brands fa-github"></i></a>
+                <a href="#" class="hover:text-emerald-600 transition"><i class="fa-solid fa-envelope"></i></a>
+                <a href="#" class="hover:text-emerald-600 transition"><i class="fa-solid fa-globe"></i></a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-6 px-6 text-center border-t border-slate-800 mt-12">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p class="text-xs">© 2026 E-Learning Media IPS. Dirancang untuk efisiensi belajar Kurikulum Merdeka.</p>
+            <div class="flex gap-4 text-xs">
+                <a href="#" onclick="switchScreen('petunjuk'); return false;" class="hover:text-white transition">Petunjuk</a>
+                <a href="#" onclick="switchScreen('materi'); return false;" class="hover:text-white transition">Materi</a>
+                <a href="#" onclick="switchScreen('kuis'); return false;" class="hover:text-white transition">Kuis</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript logic -->
+    <script>
+        // STATE STORAGE
+        let currentActiveScreen = 'home';
+        let currentMateriTab = 'faktor';
+        
+        // REGIONAL CULTURE DATA (Sumatra, Jawa, Kalimantan, Sulawesi, Nusa Tenggara, Papua & Maluku)
+        const regionalBudayaData = {
+            sumatra: {
+                title: "Kebudayaan Wilayah Sumatra",
+                badge: "Sumatra",
+                desc: "Wilayah Sumatra kental dengan tradisi budaya rumpun Melayu, pengaruh Islam yang kuat di utara, serta warisan maritim yang kaya.",
+                rumah: { name: "Gadang (Sumbar)", desc: "Memiliki bentuk atap melengkung runcing seperti tanduk kerbau melambangkan filosofi kemenangan." },
+                pakaian: { name: "Bundo Kanduang", desc: "Dilengkapi dengan hiasan kepala menyerupai atap rumah adat Gadang khas suku Minangkabau." },
+                tari: { name: "Tari Saman (Aceh)", desc: "Tarian dinamis menggunakan gerakan tepukan dada dan tangan yang harmonis tanpa alat musik." },
+                upacara: { name: "Tabuik (Sumbar)", desc: "Perayaan memperingati hari Asyura dengan melarung keranda suci raksasa ke laut." }
+            },
+            jawa: {
+                title: "Kebudayaan Wilayah Jawa & Bali",
+                badge: "Jawa & Bali",
+                desc: "Sangat kaya akan pengaruh tradisi luhur Kerajaan Hindu-Buddha serta akulturasi budaya Islam, menghasilkan perpaduan seni bercorak halus.",
+                rumah: { name: "Joglo (Jawa Tengah)", desc: "Ciri khas soko guru (tiang utama) yang menopang atap tinggi melambangkan kemegahan dan status sosial pemiliknya." },
+                pakaian: { name: "Kebaya & Beskap", desc: "Pakaian tradisional yang anggun dipadukan jarik kain batik bercorak pakem keraton." },
+                tari: { name: "Tari Kecak (Bali)", desc: "Tarian ritual khas Bali bernuansa sakral yang dimainkan berkelompok membentuk lingkaran dengan seruan suara 'cak'." },
+                upacara: { name: "Ngaben (Bali)", desc: "Upacara pembakaran jenazah umat Hindu di Bali sebagai wujud melepaskan jiwa menuju kehidupan selanjutnya." }
+            },
+            kalimantan: {
+                title: "Kebudayaan Wilayah Kalimantan",
+                badge: "Kalimantan",
+                desc: "Berakar kuat dari kebudayaan suku Dayak di pedalaman dan kesultanan Melayu di daerah pesisir yang harmonis dengan alam rimba raya.",
+                rumah: { name: "Rumah Lamin (Kaltim)", desc: "Rumah panggung panjang yang menampung ratusan anggota keluarga sebagai simbol kebersamaan suku Dayak." },
+                pakaian: { name: "King Baba & King Bibinge", desc: "Terbuat dari serat kulit kayu yang dihiasi lukisan etnik Dayak dan bulu burung enggang." },
+                tari: { name: "Tari Kancet Papatai", desc: "Tarian perang Dayak yang melambangkan kegagahan dan keberanian para pahlawan dalam mempertahankan daerahnya." },
+                upacara: { name: "Dahau (Kaltim)", desc: "Ritual adat penyematan nama bayi keturunan bangsawan dengan menggelar festival tari adat seminggu penuh." }
+            },
+            sulawesi: {
+                title: "Kebudayaan Wilayah Sulawesi",
+                badge: "Sulawesi",
+                desc: "Memiliki sejarah kemaritiman yang kuat dari suku Bugis-Makassar serta kehidupan adat bernuansa mistis dari suku Toraja di pedalaman.",
+                rumah: { name: "Tongkonan (Toraja)", desc: "Rumah panggung beratap perahu melengkung yang dihiasi dengan tumpukan tanduk kerbau sebagai simbol status sosial." },
+                pakaian: { name: "Baju Bodo (Bugis)", desc: "Pakaian tradisional tertua berbentuk segi empat longgar yang warnanya mewakili tingkatan usia pemakainya." },
+                tari: { name: "Tari Pakarena (Sulsel)", desc: "Tarian yang mencerminkan karakter lembut, sopan, dan setia dari perempuan suku Gowa." },
+                upacara: { name: "Rambu Solo (Toraja)", desc: "Upacara pemakaman adat sangat megah yang menelan biaya besar demi mengantarkan arwah ke alam baka." }
+            },
+            nusa_tenggara: {
+                title: "Kebudayaan Wilayah Nusa Tenggara",
+                badge: "Nusa Tenggara",
+                desc: "Eksotisme perpaduan budaya suku Sasak di Lombok, suku Bali di bagian barat, serta kekhasan budaya Melanesia di NTT.",
+                rumah: { name: "Mbaru Niang (Flores)", desc: "Rumah adat berbentuk kerucut tinggi berlantai lima yang melambangkan kebersamaan dan perlindungan leluhur." },
+                pakaian: { name: "Lambung & Pegon", desc: "Pakaian adat suku Sasak yang biasa dikenakan saat menyambut kedatangan tamu kehormatan." },
+                tari: { name: "Tari Caci (Flores)", desc: "Tarian pertarungan cambuk dan perisai yang merupakan wujud rasa syukur sekaligus uji ketangkasan pemuda NTT." },
+                upacara: { name: "Reba (Flores)", desc: "Upacara rasa syukur terhadap hasil pertanian berupa ubi serta penghormatan mendalam kepada leluhur." }
+            },
+            papua_maluku: {
+                title: "Kebudayaan Wilayah Papua & Maluku",
+                badge: "Papua & Maluku",
+                desc: "Kaya akan budaya rumpun ras Melanesia yang sarat akan kearifan lokal berburu, meramu, bertani, serta tarian penuh sukacita.",
+                rumah: { name: "Honai (Papua)", desc: "Rumah mungil berbentuk melingkar beratap jerami tebal, dirancang khusus menahan dinginnya dataran tinggi Papua." },
+                pakaian: { name: "Koteka / Sali", desc: "Pakaian tradisional yang terbuat dari labu air kering (koteka) atau jalinan serat tumbuhan kering (sali)." },
+                tari: { name: "Tari Yospan (Papua)", desc: "Tari pergaulan yang energetik melambangkan semangat persahabatan, kekeluargaan, dan sukacita para pemuda." },
+                upacara: { name: "Bakar Batu (Papua)", desc: "Ritual memasak bersama seluruh warga desa di dalam lubang batu panas, simbol perdamaian dan rasa syukur bersama." }
+            }
+        };
+
+        // KUIS DATA (5 Soal IPS Kelas 7)
+        const kuisQuestions = [
+            {
+                q: "Salah satu faktor geografis yang menjadi alasan Indonesia memiliki tingkat keberagaman budaya yang sangat tinggi adalah...",
+                options: [
+                    "A. Wilayah Indonesia yang terletak di belahan bumi bagian utara",
+                    "B. Terletak strategis di jalur pelayaran perdagangan dunia antarsamudra",
+                    "C. Memiliki tanah yang sangat subur akibat banyaknya gunung api",
+                    "D. Mayoritas wilayah Indonesia dikelilingi oleh daratan benua"
+                ],
+                correct: 1 // Indeks opsi B
+            },
+            {
+                q: "Rumah adat Honai yang memiliki bentuk kubah melingkar beratap jerami tebal bertujuan melindungi warga dari udara dingin pegunungan. Rumah ini berasal dari daerah...",
+                options: [
+                    "A. Sumatra Barat",
+                    "B. Nusa Tenggara Barat",
+                    "C. Papua",
+                    "D. Sulawesi Selatan"
+                ],
+                correct: 2 // Indeks opsi C
+            },
+            {
+                q: "Masyarakat di wilayah pesisir umumnya bermata pencaharian nelayan dengan pakaian tipis, sedangkan masyarakat pegunungan bekerja sebagai petani dengan pakaian tebal. Keberagaman ini disebabkan oleh...",
+                options: [
+                    "A. Pengaruh adat budaya asing",
+                    "B. Perbedaan kondisi geografis/alam setempat",
+                    "C. Kemajuan teknologi informasi daerah",
+                    "D. Keinginan masyarakat bersaing antarsuku"
+                ],
+                correct: 1 // Indeks opsi B
+            },
+            {
+                q: "Upacara adat Rambu Solo merupakan tradisi upacara pemakaman megah sebagai bentuk penghormatan terakhir kepada leluhur yang dilaksanakan oleh suku...",
+                options: [
+                    "A. Suku Bugis di Makassar",
+                    "B. Suku Toraja di Sulawesi Selatan",
+                    "C. Suku Dayak di pedalaman Kalimantan",
+                    "D. Suku Sasak di Pulau Lombok"
+                ],
+                correct: 1 // Indeks opsi B
+            },
+            {
+                q: "Sikap terbaik yang patut kita tunjukkan dalam menghadapi keberagaman budaya bangsa Indonesia yang multikultural ini adalah...",
+                options: [
+                    "A. Menganggap budaya daerah sendiri jauh lebih unggul dari budaya orang lain",
+                    "B. Saling menghargai dan bertoleransi tinggi demi integrasi nasional",
+                    "C. Menghindari mempelajari budaya suku lain agar budaya sendiri murni",
+                    "D. Membatasi pergaulan hanya dengan teman satu suku bangsa"
+                ],
+                correct: 1 // Indeks opsi B
+            }
+        ];
+
+        let quizState = {
+            currentIdx: 0,
+            score: 0,
+            answers: []
+        };
+
+        // SCREEN MANAGER SYSTEM
+        function switchScreen(screenId) {
+            // Hide all main screens
+            document.querySelectorAll('main > section').forEach(section => {
+                section.classList.add('hidden');
+            });
+
+            // Show current screen
+            const activeSection = document.getElementById(`screen-${screenId}`);
+            if (activeSection) {
+                activeSection.classList.remove('hidden');
+                currentActiveScreen = screenId;
+            }
+
+            // Update Desktop Nav styles
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.className = "nav-btn px-4 py-2 rounded-lg hover:bg-white/10 transition flex items-center gap-2 text-sm font-medium";
+            });
+
+            // Highlight active navigation button if exists
+            const activeBtnMap = {
+                'home': 0, 'petunjuk': 1, 'materi': 2, 'kuis': 3, 'profil': 4
+            };
+            const btnIdx = activeBtnMap[screenId];
+            const desktopNavBtns = document.querySelectorAll('header nav button');
+            if (desktopNavBtns && desktopNavBtns[btnIdx]) {
+                desktopNavBtns[btnIdx].className += " bg-white/20 text-white font-bold";
+            }
+        }
+
+        // MOBILE MENU DRAWER TOGGLE
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                setTimeout(() => {
+                    menu.classList.remove('translate-x-full');
+                }, 10);
+            } else {
+                menu.classList.add('translate-x-full');
+                setTimeout(() => {
+                    menu.classList.add('hidden');
+                }, 300);
+            }
+        }
+
+        // SUB-TAB CONTROLLER FOR MATERI (Faktor / Jelajah)
+        function switchMateriTab(tabName) {
+            currentMateriTab = tabName;
+            
+            // Buttons element references
+            const tabFaktor = document.getElementById('tab-materi-faktor');
+            const tabJelajah = document.getElementById('tab-materi-jelajah');
+            
+            // Content divs
+            const contentFaktor = document.getElementById('materi-faktor');
+            const contentJelajah = document.getElementById('materi-jelajah');
+
+            if (tabName === 'faktor') {
+                tabFaktor.className = "px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 bg-emerald-600 text-white shadow";
+                tabJelajah.className = "px-5 py-2.5 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-all duration-200";
+                
+                contentFaktor.classList.remove('hidden');
+                contentJelajah.classList.add('hidden');
+            } else {
+                tabJelajah.className = "px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 bg-emerald-600 text-white shadow";
+                tabFaktor.className = "px-5 py-2.5 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-all duration-200";
+                
+                contentJelajah.classList.remove('hidden');
+                contentFaktor.classList.add('hidden');
+                
+                // Set default region on open
+                selectRegion('sumatra');
+            }
+        }
+
+        // REGION SELECTION LOGIC
+        function selectRegion(regionKey) {
+            // Highlight Selected Region Button
+            document.querySelectorAll('.region-btn').forEach(btn => {
+                btn.className = "region-btn p-3 rounded-xl border font-semibold text-xs flex flex-col items-center gap-2 transition bg-white text-slate-600 border-slate-200 hover:bg-slate-50";
+            });
+
+            const activeBtn = document.getElementById(`btn-reg-${regionKey}`);
+            if (activeBtn) {
+                activeBtn.className = "region-btn p-3 rounded-xl border font-semibold text-xs flex flex-col items-center gap-2 transition bg-emerald-50 text-emerald-800 border-emerald-200 shadow-sm";
+            }
+
+            // Load Regional Data to Card
+            const data = regionalBudayaData[regionKey];
+            if (data) {
+                document.getElementById('detail-title').innerText = data.title;
+                document.getElementById('detail-desc').innerText = data.desc;
+                document.getElementById('detail-badge').innerText = data.badge;
+
+                document.getElementById('cult-rumah-name').innerText = data.rumah.name;
+                document.getElementById('cult-rumah-desc').innerText = data.rumah.desc;
+
+                document.getElementById('cult-pakaian-name').innerText = data.pakaian.name;
+                document.getElementById('cult-pakaian-desc').innerText = data.pakaian.desc;
+
+                document.getElementById('cult-tari-name').innerText = data.tari.name;
+                document.getElementById('cult-tari-desc').innerText = data.tari.desc;
+
+                document.getElementById('cult-upacara-name').innerText = data.upacara.name;
+                document.getElementById('cult-upacara-desc').innerText = data.upacara.desc;
+            }
+        }
+
+        // QUIZ LOGIC SYSTEM
+        function startQuiz() {
+            quizState.currentIdx = 0;
+            quizState.score = 0;
+            quizState.answers = [];
+
+            document.getElementById('quiz-start-screen').classList.add('hidden');
+            document.getElementById('quiz-result-screen').classList.add('hidden');
+            document.getElementById('quiz-play-screen').classList.remove('hidden');
+
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const currentQ = kuisQuestions[quizState.currentIdx];
+            
+            // Update Headers progress
+            document.getElementById('quiz-current-num').innerText = quizState.currentIdx + 1;
+            const progressPct = ((quizState.currentIdx + 1) / kuisQuestions.length) * 100;
+            document.getElementById('quiz-progress-bar').style.width = `${progressPct}%`;
+
+            // Set Text
+            document.getElementById('quiz-question-text').innerText = currentQ.q;
+
+            // Render Options
+            const container = document.getElementById('quiz-options-container');
+            container.innerHTML = '';
+
+            currentQ.options.forEach((opt, index) => {
+                const button = document.createElement('button');
+                button.className = "w-full text-left p-4 rounded-xl border border-slate-200 hover:border-emerald-500 hover:bg-emerald-50/30 transition-all flex items-center justify-between group";
+                button.innerHTML = `
+                    <span class="text-sm font-medium text-slate-700">${opt}</span>
+                    <i class="fa-solid fa-chevron-right text-slate-300 group-hover:text-emerald-500 transition"></i>
+                `;
+                button.onclick = () => selectAnswer(index);
+                container.appendChild(button);
+            });
+        }
+
+        function selectAnswer(selectedIdx) {
+            const currentQ = kuisQuestions[quizState.currentIdx];
+            const isCorrect = (selectedIdx === currentQ.correct);
+            
+            if (isCorrect) {
+                quizState.score += 20;
+            }
+            quizState.answers.push(selectedIdx);
+
+            // Move to next question or end
+            if (quizState.currentIdx < kuisQuestions.length - 1) {
+                quizState.currentIdx++;
+                loadQuestion();
+            } else {
+                showQuizResults();
+            }
+        }
+
+        function showQuizResults() {
+            document.getElementById('quiz-play-screen').classList.add('hidden');
+            document.getElementById('quiz-result-screen').classList.remove('hidden');
+
+            // Render Score and Custom Feedback
+            const score = quizState.score;
+            document.getElementById('result-score').innerHTML = `${score} <span class="text-xl text-slate-400 font-normal">/ 100</span>`;
+
+            const trophyContainer = document.getElementById('result-trophy-container');
+            const statusTitle = document.getElementById('result-status-title');
+            const feedbackText = document.getElementById('result-feedback-text');
+
+            if (score >= 80) {
+                trophyContainer.className = "w-24 h-24 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-5xl shadow-lg";
+                trophyContainer.innerHTML = `<i class="fa-solid fa-award"></i>`;
+                statusTitle.innerText = "Luar Biasa! Pemahaman Hebat";
+                feedbackText.innerText = "Kamu telah menguasai seluruh materi tentang keberagaman budaya kelas 7 dengan sangat sempurna!";
+            } else if (score >= 60) {
+                trophyContainer.className = "w-24 h-24 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto text-5xl shadow-lg";
+                trophyContainer.innerHTML = `<i class="fa-solid fa-circle-check"></i>`;
+                statusTitle.innerText = "Bagus! Kamu Sudah Lulus";
+                feedbackText.innerText = "Kerja bagus! Pelajari beberapa bagian materi kembali untuk menyempurnakan nilaimu.";
+            } else {
+                trophyContainer.className = "w-24 h-24 bg-rose-100 text-rose-600 rounded-full flex items-center justify-center mx-auto text-5xl shadow-lg";
+                trophyContainer.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i>`;
+                statusTitle.innerText = "Ayo Belajar Lagi!";
+                feedbackText.innerText = "Jangan berkecil hati, mari tinjau kembali modul Jelajah Nusantara untuk mengingat detail budayanya.";
+            }
+        }
+
+        // INIT LOAD
+        document.addEventListener('DOMContentLoaded', () => {
+            switchScreen('home');
+        });
+    </script>
+</body>
+</html>
